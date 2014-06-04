@@ -1,0 +1,29 @@
+<?php
+Table::init(array('class' => 'table table-striped data'));
+Table::setHeaders(array('', 'Name', 'Link', ''));
+
+foreach ($models as $model) {
+    $editBtn = '<a title="edit" href="' . $this->url('cms', 'social', 'edit', array($model->getId())) . '" class="btn btn-mini btn-info"><i class="icon-edit"></i></a>';
+    $deleteBtn = '<a title="delete" href="' . $this->url('cms', 'social', 'delete', array($model->getId())) . '" class="btn btn-mini btn-danger"><i class="icon-trash"></i></a>';
+
+    Table::newRow();
+    Table::addRowData('<img src="' . $model->getImage() . '" />', array('width' => '50px'));
+    Table::addRowData($model->getName());
+    Table::addRowData($model->getLink());
+    Table::addRowData($editBtn . ' ' . $deleteBtn, array('width' => '100px'));
+}
+?>
+<div class="row-fluid">
+    <div class="span12">
+        <h1>
+            <small class="text-error">Socials</small>
+            <a href="<?= $this->url('cms', 'social', 'new') ?>" class="btn btn-success pull-right">New Social</a>
+        </h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <?= Table::render() ?>
+    </div>
+</div>

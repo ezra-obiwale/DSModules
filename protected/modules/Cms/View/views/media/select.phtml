@@ -1,0 +1,92 @@
+<div class="rows-fluid">
+    <div class="btn-group" data-toggle="buttons-radio">
+        <button type="button" id="on" class="btn btn-info active disabled">Selected</button>
+        <button type="button" class="btn btn-info">Unselected</button>
+        <button type="button" id="all" class="btn btn-info">All</button>
+    </div>
+    <input type="search" id="searchMedia" autofocus="autofocus" placeholder="search media by name" class="pull-right" />
+</div> 
+<hr />
+<?php
+foreach ($models as $key => $model):
+    if ($key % 3 === 0):
+        if ($key): // close row-fluid and thumbnails if not first model
+            ?>
+            </div>
+            <?php
+        endif;
+        ?>
+        <div class="row-fluid media thumbnails">
+        <?php endif; ?>
+        <a id="<?= $model->getId() ?>" class="thumbnail span4 media-select <?= in_array($model->getId(), $selected) ? 'on' : '' ?>" href="#">
+            <?=
+            $this->fo($model->getPath(), array(
+                'attrs' => array(
+                    'alt' => 'select media: ' . $model->getName(),
+                )
+            ))
+            ?>
+            <div class="info" style="display:inline-block">
+                <span title="Image title" class="badge badge-success"><?= $model->getName() ?></span>
+                <div><?= $model->getDescription() ?></div>
+            </div>
+        </a>
+        <?php
+    endforeach;
+    ?>
+    <script>
+        var active = null;
+
+        $('.btn-group > .btn').live('click', function() {
+            $('.btn-group > .btn').removeClass('disabled');
+            $(this).addClass('disabled');
+            $('.media-select').hide();
+            if ($(this).attr('id') == 'on') {
+                $('.media-select.on').show();
+                active = 'on';
+            } else if ($(this).attr('id') == 'all') {
+                $('.media-select').show();
+                active = 'all';
+            } else {
+                $('.media-select').not('.on').show();
+                active = 'off';
+            }
+            
+            $('#searchMedia').focus();
+        });
+
+        $('#searchMedia').live('keyup', function() {
+            var search = null;
+            switch (active) {
+                case 'on':
+                    search = $('.media-select.on');
+                    break;
+                case 'off':
+                    search = $('.media-select').not('.on');
+                    break;
+                case 'all':
+                    search = $('.media-select');
+                    break;
+            }
+
+            if (search != null) {
+                if ($(this).val() == '') {
+                    $(search).show();
+                    return;
+                } else {
+                    $(search).hide();
+                }
+
+                var self = this;
+                $.each($(search), function(index, value) {
+                    if ($(value).children('.info').children('span').html().indexOf($(self).val()) != -1) {
+                        $(value).show();
+                    }
+                    else if ($(value).children('.info').children('div').html().indexOf($(self).val()) != -1) {
+                        $(value).show();
+                    }
+                });
+            }
+        });
+
+    </script>

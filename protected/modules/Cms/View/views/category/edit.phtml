@@ -1,0 +1,20 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h1><small class="text-error">Edit Category</small></h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <?= $this->twbForm($form->setAttribute('action', $this->currentPath())) ?>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('#name').live('keyup', function() {
+            $('#link').val($(this).val().replace(/[A-Z]+/g, function(l) {
+                return l.toLowerCase();
+            }).replace(/[^a-z0-9-\s]*/g, '').replace(/\s/g, '-').replace('--', '-'));
+        });
+    });
+</script>

@@ -1,0 +1,13 @@
+<?php if (!$noHeader): ?>
+<div class="row-fluid">
+    <div class="span12">
+        <h1><small class="text-info"><span class="text-error"><?= $model->getCodeName() ?></span> Slide Set</small></h1>
+        <hr />
+    </div>
+</div>
+<?php endif; ?>
+<div class="row-fluid">
+    <div class="<?= ($noHeader) ? 'span12' : 'span10 offset1' ?>">
+        <?= Page::mediaCarousel($model->media()); ?>
+    </div>
+</div>

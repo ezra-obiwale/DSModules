@@ -1,0 +1,23 @@
+<?php
+ob_start();
+?>
+<li <?= ($this->controller() === 'dashboard') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'dashboard', $this->userIdentity()->getUser()->getRole()) ?>"><i class="icon-th"></i> Dashboard</a></li>
+<li <?= ($this->controller() === 'page') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'page', 'index') ?>"><i class="icon-leaf"></i> Pages</a></li>
+<li <?= ($this->controller() === 'article') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'article', 'index') ?>"><i class="icon-book"></i> Articles</a></li>
+<li <?= ($this->controller() === 'media') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'media', 'index') ?>"><i class="icon-picture"></i> Media</a></li>
+<li <?= ($this->controller() === 'social') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'social', 'index') ?>"><i class="icon-glass"></i> Socials</a></li>
+<li <?= ($this->controller() === 'newsletter') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'newsletter', 'index') ?>"><i class="icon-bell"></i> Newsletters</a></li>
+<li <?= ($this->controller() === 'subscription') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'subscription', 'index') ?>"><i class="icon-envelope"></i> Subscriptions</a></li>
+<li <?= ($this->controller() === 'user' && !in_array($this->action(), array('profile', 'edit-profile', 'edit-password'))) ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'user', 'index') ?>"><i class="icon-user"></i> Users</a></li>
+<li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">More <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li <?= ($this->controller() === 'setting') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'setting', 'view') ?>"><i class="icon-wrench"></i> Settings</a></li>        
+        <li <?= ($this->controller() === 'links-meta') ? 'class="active"' : '' ?>><a href="<?= $this->url('cms', 'links-meta', 'index') ?>"><i class="icon-list"></i> Links</a></li>        
+    </ul>
+</li>
+<?php
+$this->loadLayout('users', array(
+    'nav' => ob_get_clean(),
+    'content' => $content,
+));

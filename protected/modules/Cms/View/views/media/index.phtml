@@ -1,0 +1,13 @@
+<style>
+    iframe {
+        padding: 0px;
+        border-radius:4px;
+    }
+</style>
+<iframe id="kc_frame" name="kcfinder_alone" src="<?= $this->getAsset('kcfinder/browse.php') ?>" frameborder="0" width="100%" height="100%">
+</iframe>
+<script>
+    $(document).ready(function(){
+        $('iframe').css('height', $(window).height() - 320);
+    });
+</script>

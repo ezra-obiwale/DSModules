@@ -1,0 +1,62 @@
+<?php
+@session_start();
+$_SESSION['KCFINDER']['disabled'] = false;
+$this->loadAsset('tinymce')->loadAsset('kcfinder');
+echo $this->loadJs('tinymce/jquery.tinymce.min');
+echo $this->loadJs('tinymce/tinymce.min');
+?>
+<style>
+    .mce-fullscreen {
+        z-index: 999999999;
+</style>
+<?= $content; ?>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        tinymce.init({
+            selector: ".tiny",
+            theme: "modern",
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor moxiemanager",
+                "autosave spellchecker fullpage"
+            ],
+            menubar: false,
+            relative_urls: false,
+            toolbar_items_size: 'small',
+            toolbar: "newdocument print fullpage fullscreen preview | cut copy paste searchreplace | \n\
+ bold italic underline strikethrough | fontselect fontsizeselect forecolor backcolor | \n\
+ table | undo redo | alignleft aligncenter alignright alignjustify | bullist numlist | \n\
+ outdent indent blockquote | link unlink anchor image media code | styleselect formatselect | \n\
+ inserttime | hr removeformat | subscript superscript | charmap emoticons | ltr rtl | \n\
+ spellchecker | visualchars visualblocks nonbreaking template pagebreak restoredraft",
+            image_advtab: true,
+            templates: [
+                {title: 'Test template 1', content: 'Test 1'},
+                {title: 'Test template 2', content: 'Test 2'}
+            ],
+            file_browser_callback: function(field, url, type, win) {
+                tinyMCE.activeEditor.windowManager.open({
+                    file: '<?= $this->getAsset('kcfinder/browse.php') ?>?opener=tinymce4&field=' + field + '&type=' + type,
+                    title: 'KCFinder',
+                    width: 700,
+                    height: 500,
+                    inline: true,
+                    close_previous: false,
+                    resizable: true
+                }, {
+                    window: win,
+                    input: field
+                });
+                return false;
+            }
+        });
+        $('#title').live('keyup blur', function() {
+            $('#link').val($(this).val().replace(/[A-Z]+/g, function(l) {
+                return l.toLowerCase();
+            }).replace(/[^a-z0-9-\s]*/g, '').replace(/\s/g, '-').replace('--', '-'));
+        });
+        $('.mce-container').css('z-index', 9999999);
+    });
+</script>

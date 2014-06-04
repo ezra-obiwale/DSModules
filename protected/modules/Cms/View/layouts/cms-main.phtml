@@ -1,0 +1,99 @@
+<?php
+$this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-halflings-white.png')->loadAsset('img/logo.png');
+?>
+<!DOCTYPE>
+<html>
+    <head>
+        <title><?= CMS::getSiteName() . ' | ' . CMS::getTitle() ?></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <?= $this->loadCss('css/bootstrap.min') ?>
+        <?= $this->loadCss('css/bootstrap-responsive.min') ?>
+        <?= $this->loadCss('css/dscribe') ?>
+        <?= $this->loadIcon('images/logo') ?>
+        <?= $this->loadJs('js/jquery.min') ?>
+        <style>
+            body {
+                margin-top:60px;
+                margin-bottom:100px;
+            }
+            .logo {
+                display:inline-block;
+                width:50px;
+                background:url(<?= CMS::getLogoPath() ?>) white no-repeat;
+                background-size:100% 100%;
+                margin-right:5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='container-fluid'>
+            <header class="row-fluid">
+                <div class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <div class="container">
+                                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </a>
+                                <a href="<?= $this->home() ?>" class="brand"><div class="logo">&nbsp;</div><?= CMS::getSiteName() ?></a>
+                                <nav class="nav-collapse collapse">
+                                    <ul class="nav">
+                                        <?= CMS::createPageLinks() ?>
+                                    </ul>
+                                    <ul class="nav pull-right">
+                                        <?php if ($this->userIdentity()->isGuest()): ?>
+                                            <li><a href="<?= $this->url('cms', 'guest', 'login') ?>">Login</a></li>
+                                        <?php endif; ?>
+                                        <?php if (!$this->userIdentity()->isGuest()): ?>
+                                            <li><a href="<?= $this->url('cms', 'dashboard', $this->userIdentity()->getUser()->getRole()) ?>">Dashboard</a></li>
+                                            <li><a href="<?= $this->url('cms', 'guest', 'logout') ?>">Logout</a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+            </header>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="container-fluid">
+                        <?php if ($this->flash()->hasMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-info" style="text-align:center">
+                                    <?= $this->flash()->getMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->flash()->hasSuccessMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-success" style="text-align:center">
+                                    <?= $this->flash()->getSuccessMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->flash()->hasErrorMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-error" style="text-align:center">
+                                    <?= $this->flash()->getErrorMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?= $content ?>
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-fixed-bottom">
+                <hr/>
+                <div class="container">
+                    <footer class="footer">
+                        &copy; 2014 CMS - DScribe Framework
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <?= $this->loadJs('js/bootstrap.min') ?>
+    </body>
+</html>

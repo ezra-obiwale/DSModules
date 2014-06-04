@@ -1,0 +1,23 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h1>
+            <small class="text-error">Edit Profile</small>
+            <a class="btn btn-info" href="<?= $this->url('cms', 'user', 'edit-password') ?>">Edit Password <i class="icon-edit icon-white"></i></a>
+        </h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span2" style="text-align:right">
+        <?=
+        $this->fo($model->getPicture(), array(
+            'attrs' => array(
+                'alt' => 'Picture: ' . $model->getFullName()
+            )
+        ))
+        ?>
+    </div>
+    <div class="span8">
+        <?= TwbForm::horizontal($form->setAttribute('action', $this->currentPath())) ?>
+    </div>
+</div>

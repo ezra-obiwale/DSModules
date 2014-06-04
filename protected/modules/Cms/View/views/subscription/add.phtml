@@ -1,0 +1,12 @@
+<div class="row-fluid">
+    <div class="span10 offset1" style="text-align: center;margin-top:15px">
+        <script>
+            function goBack() {
+                history.back();
+            }
+
+            setTimeout(goBack, 10000);
+        </script>
+        If this page does not redirect after 10 seconds, please <a href="<?= $this->url('cms') ?>">click here</a>.
+    </div>
+</div>

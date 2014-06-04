@@ -1,0 +1,32 @@
+<?php
+Table::init(array('class' => 'table table-striped'));
+Table::setHeaders(array('Category Name', 'Category Link', 'Page Title', 'Page Link', ''));
+
+foreach ($models as $model) {
+    $viewBtn = '<a title="view details" href="' . $this->url('cms', 'links-meta', 'view', array($model->getId())) . '" class="btn btn-mini btn-success"><i class="icon-folder-open"></i></a>';
+    $editBtn = '<a title="edit" href="' . $this->url('cms', 'links-meta', 'edit', array($model->getId())) . '" class="btn btn-mini btn-info"><i class="icon-edit"></i></a>';
+    $deleteBtn = '<a title="delete" href="' . $this->url('cms', 'links-meta', 'delete', array($model->getId())) . '" class="btn btn-mini btn-danger"><i class="icon-trash"></i></a>';
+
+    Table::newRow();
+
+    Table::addRowData($model->getCategoryName());
+    Table::addRowData($model->getCategoryLink());
+    Table::addRowData($model->getPageTitle());
+    Table::addRowData($model->getPageLink());
+    Table::addRowData($viewBtn . ' ' . $editBtn . ' ' . $deleteBtn, array('width' => '100px'));
+}
+?>
+<div class="row-fluid">
+    <div class="span12">
+        <h1>
+            <small class="text-error">Links</small>
+            <a href="<?= $this->url('cms', 'links-meta', 'new') ?>" class="btn btn-success pull-right">New Links</a>
+        </h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <?= Table::render() ?>
+    </div>
+</div>

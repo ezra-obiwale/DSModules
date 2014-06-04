@@ -1,0 +1,26 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h1>
+            <small class="text-error">User <?= $model->getFullName() ?></small>
+        </h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span2">
+        <?=
+        $this->fo($model->getPicture(), array(
+            'attrs' => array(
+                'alt' => 'Picture: ' . $model->getFullName()
+            )
+        ))
+        ?>
+    </div>
+    <div class="span8">
+        <p><span class="badge badge-info " style="margin-right:70px">Email:</span> <a class="text-success" href="mailto:<?= $model->getEmail() ?>"><?= $model->getEmail() ?></a></p>
+        <p><span class="badge badge-info" style="margin-right:70px">Register Date:</span> <span><?= $model->getRegisterDate() ?></span></p>
+        <p><span class="badge badge-info" style="margin-right:70px">Last Login:</span> <span><?= $model->getLastLogin() ?></span></p>
+        <p><span class="badge badge-info" style="margin-right:70px">Role:</span> <span><?= $model->getRole() ?></span></p>
+
+    </div>
+</div>

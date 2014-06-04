@@ -1,0 +1,49 @@
+<?php ob_start() ?>
+<div class="row-fluid">
+    <div class="span9">
+        <div class="row-fluid">
+            <div class="span12">
+                <?= CMS::createPageMap() ?>
+                <h1>
+                    <small class="text-error"><?= CMS::getPage()->getTitle() ?></small>
+                </h1>
+            </div>
+        </div>
+        <hr />
+        <div class="row-fluid">
+            <div class="span12">
+                <?= CMS::getPage()->getContent() ?>
+            </div>
+        </div>
+        <hr />
+        <div class="row-fluid">
+            <div class="span12">
+                <?= CMS::getCommentForm(true) ?>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="row-fluid">
+            <div class="span12 well well-small text-info">
+                Subscribe here
+                <?= CMS::createSubscriptionForm() ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12 well well-small">
+                <h3><small class="text-error">Most Recent Articles</small></h3>
+                <?= CMS::createArticleLinks(5, array('class' => 'nav nav-tabs nav-stacked')) ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12 well well-small">
+                <h3><small class="text-error">Recent Categories <a class="btn-link text-warning" style="font-style:italic" href="<?= $this->url('cms', 'article', 'list-categories') ?>">(view all)</a></small></h3>
+                <?= CMS::createArticleCategoryLinks(5, array('class' => 'nav nav-tabs nav-stacked')) ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+$this->loadLayout(DScribe\Core\Engine::getDefaultLayout(), array(
+    'content' => ob_get_clean(),
+));

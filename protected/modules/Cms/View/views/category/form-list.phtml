@@ -1,0 +1,52 @@
+<?php
+Table::init(array(
+    'class' => 'table table-bordered table-hover table-condensed',
+    'id' => 'tableCategory'
+));
+
+$used = array();
+
+function addCategories(&$used, $selected, $categories, \DScribe\View\Renderer $view, $parentId = null, $level = 0) {
+    foreach ($categories as $category) {
+        if ($category->getId() === $parentId || in_array($category->getId(), $used))
+            continue;
+
+        if ($category->getId() === 'ROOT') {
+            $editBtn = '';
+        }
+        else {
+            $editBtn = '<a target="_blank" class="btn btn-link text-info" href="' .
+                    $view->url('cms', 'category', 'edit', array($category->getId())) .
+                    '"><i class="icon-edit"></i> edit</i>';
+        }
+
+        Table::newRow(array(
+            'class' => ($category->getId() === $selected) ? 'alert alert-success no-close' : '',
+        ));
+        Table::addRowData(str_repeat('::', $level) . ' <a href="#" data-dismiss="modal" class="categoryValue ' .
+                (($category->getId() === $selected) ? 'text-success' : '') .
+                '" data-value="' . $category->getId() . '">' . $category->getName() .
+                '</a>');
+        Table::addRowData($editBtn, array('width' => '70px'));
+
+        $used[] = $category->getId();
+        if ($subCats = $category->category(array('push' => true, 'orderBy' => 'position'))) {
+            addCategories($used, $selected, $subCats, $view, $category->getId(), $level + 1);
+        }
+    }
+}
+
+addCategories($used, $selected, $categories, $this);
+
+echo Table::render();
+?>
+<script>
+    $(document).ready(function() {
+        $('.categoryValue').click(function(e) {
+            $('#tableCategory tr').removeClass('alert alert-success no-close');
+            $('#tableCategory a').removeClass('text-success');
+
+            $(this).addClass('text-success').parents('tr').addClass('alert alert-success no-close');
+        });
+    });
+</script>

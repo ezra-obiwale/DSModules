@@ -1,0 +1,128 @@
+<?php ob_start(); ?>
+<style>
+    input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]), textarea, select {
+        min-width:10px!important;
+    }
+    #articleForm .info {
+        background-color:#dff0d8;
+        padding:5px;
+        border-radius:10px;
+        border:1px solid #468847;
+        margin-bottom:20px;
+    }
+
+    #articleForm .info label {
+        color:#468847;
+    }
+
+    .inline-1 label {
+        display:inline;
+    }
+
+    .inline-1 .element-group:first-child {
+        padding-right:50px;
+    }
+
+    @media (max-width: 767px) {
+        #articleForm .info {
+            margin-top:20px; 
+        }
+    }
+</style>
+<div class="row-fluid header">
+    <div class="span12">
+        <h1><small class="text-error"><?= $type ?> Article</small></h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <?= $form->setAttribute('action', $this->currentPath())->render() ?>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('form#articleForm #content').removeAttr('required');
+        $.get('/cms/article/get-categories', {}, function(data) {
+            $('form#articleForm #category').typeahead({
+                source: data
+            });
+        });
+
+        if ('<?= $type ?>' == 'New')
+            $('form#articleForm input[type="submit"]').parent().append('<input class="btn btn-primary" type="submit" name="saveAndNew" value="Save and Add New" />');
+
+        $('form#articleForm').prepend('<div class="info container-fluid"><div class="details"></div></div>');
+        $('form#articleForm #title, form#articleForm #link, form#articleForm #description').parents('.element-group').each(function(index, value) {
+            $(value).addClass('clear');
+            $('form#articleForm .info > .details').prepend($(value));
+        });
+
+        var details = $('form#articleForm .info > .details');
+        $(details).prepend('<div class="row-fluid inline-1"></div>');
+        $('form#articleForm .inline-1').prepend($('form#articleForm #allowComments').parents('.element-group').addClass('pull-left'));
+        $('form#articleForm .inline-1').prepend($('form#articleForm #status').parents('.element-group').addClass('pull-left'));
+        $('form#articleForm .inline-1').prepend($('form#articleForm #category').parents('.element-group').addClass('pull-left'));
+        $('form#articleForm #category').focus();
+
+        $(details).append('<div class="row-fluid inline-2"></div>');
+        $(details).append($('form#articleForm #submit').parents('.element-group'));
+
+        $('form#articleForm .element-group.submit').addClass('pull-right');
+        $('form#articleForm select').addClass('span12');
+
+        $('form#articleForm .info').prepend($('.row-fluid.header'));
+        $('.row-fluid.header h1').append('<a href="#" class="show-info" title="Minimize"><i class="icon-minus-sign"></i></a>');
+
+        $('form#articleForm a.show-info').live('click', function(e) {
+            e.preventDefault();
+            if ($(details).css('display') == 'none') {
+                $(details).slideDown();
+                $(this).children('i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+                $(this).attr('title', 'Minimize');
+                $('form#articleForm #title').focus();
+            }
+            else {
+                $(details).slideUp();
+                $(this).children('i').removeClass('icon-minus-sign').addClass('icon-plus-sign');
+                $(this).attr('title', 'Maximize');
+            }
+        });
+
+        if ($('h1 .text-error').html().indexOf('Edit') != -1)
+            $('form#articleForm a.show-info').click();
+
+
+        var stat = $('form#articleForm #status').hide().parent();
+        $(stat).append('<a href="#" data-type="select" data-target="form#articleForm #status" data-on="Active" data-off="Inactive" class="btn btn-mini toggle btn-' + (($('form#articleForm #status').val() == 1) ? 'success active' : 'danger') + '" data-toggle="button">' + (($('form#articleForm #status').val() == 1) ? 'Active' : 'Inactive') + '</button>');
+
+        var stat = $('form#articleForm #allowComments').hide().parent();
+        $(stat).append('<a href="#" data-target="form#articleForm #allowComments" data-on="Yes" data-off="No" class="btn btn-mini toggle btn-' + (($('form#articleForm #allowComments').attr('checked')) ? 'success active' : 'danger') + '" data-toggle="button">' + (($('form#articleForm #allowComments').attr('checked')) ? 'Yes' : 'No') + '</button>');
+        $('.toggle').live('click', function(e) {
+            e.preventDefault();
+
+            if ($(this).hasClass('active')) {
+                $(this).html($(this).attr('data-on')).removeClass('btn-danger').addClass('btn-success');
+                $($(this).attr('data-target')).attr('checked', 'checked');
+            }
+            else {
+                $(this).html($(this).attr('data-off')).removeClass('btn-success').addClass('btn-danger');
+                $($(this).attr('data-target')).removeAttr('checked');
+            }
+
+            if ($(this).attr('data-type') === 'select') {
+                self = this;
+                $($(this).attr('data-target')).children('option').each(function(i, v) {
+                    if ($(v).html() === $(self).html())
+                        $(v).attr('selected', 'selected');
+                    else
+                        $(v).removeAttr('selected');
+                });
+            }
+        });
+    });
+</script>
+<?php
+$this->loadLayout('tinymce', array(
+    'content' => ob_get_clean()
+));
