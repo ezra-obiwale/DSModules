@@ -1,1 +1,15 @@
 /nbproject/
+/bootstrap.php
+/public/
+/LICENSE
+/composer.json
+/composer.phar
+/autoloader.php
+/vendor/
+/.htaccess
+/README.md
+/protected/data/
+/protected/config/
+/protected/themes/
+/protected/modules/App/
+/composer.lock
