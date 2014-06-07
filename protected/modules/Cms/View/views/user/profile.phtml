@@ -20,29 +20,20 @@
         ?>
     </div>
     <div class="span8">
-        <div class="row-fluid">
-            <div class="span3">
-                <span class="badge badge-info">First Name:</span>
-            </div>
-            <div class="span9">
-                <?= $model->getFirstName() ?>
-            </div>
+        <div class="row-fluid" style="margin-bottom:5px!important">
+            <div class = "badge badge-info span3">First Name:</div> <div class="span9"><?= $model->getFirstName() ?></div>
         </div>
-        <div class="row-fluid">
-            <div class="span3">
-                <span class="badge badge-info">Last Name:</span>
-            </div>
-            <div class="span9">
-                <?= $model->getLastName() ?>
-            </div>
+        <div class="row-fluid" style="margin-bottom:5px!important">
+            <div class = "badge badge-info span3">Last Name:</div> <div class="span9"><?= $model->getLastName() ?></div>
         </div>
-        <div class="row-fluid">
-            <div class="span3">
-                <span class="badge badge-info">Email:</span>
-            </div>
-            <div class="span9">
-                <?= $model->getEmail() ?>
-            </div>
+        <div class="row-fluid" style="margin-bottom:5px!important">
+            <div class = "badge badge-info span3">Email Address:</div> <div class="span9"><?= $model->getEmail() ?></div>
+        </div>
+        <div class="row-fluid" style="margin-bottom:5px!important">
+            <div class = "badge badge-info span3">Register Date:</div> <div class="span9"><?= $model->parseDate('registerDate') ?></div>
+        </div>
+        <div class="row-fluid" style="margin-bottom:5px!important">
+            <div class = "badge badge-info span3">Last Login Date:</div> <div class="span9"><?= $model->parseDate('lastLogin') ?></div>
         </div>
     </div>
 </div>

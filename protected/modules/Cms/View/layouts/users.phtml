@@ -4,14 +4,17 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
 <!DOCTYPE>
 <html>
     <head>
-        <title>DScribe | CMS</title>
+        <title>DScribe CMS - <?= CMS::getSiteName() ?></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?= $this->loadCss('css/bootstrap.min') ?>
         <?= $this->loadCss('css/bootstrap-responsive.min') ?>
         <?= $this->loadCss('css/demo_table') ?>
+        <?= $this->loadCss('css/jquery.ui.core.min') ?>
+        <?= $this->loadCss('css/jquery.ui.datepicker.min') ?>
+        <?= $this->loadCss('css/jquery.timepicker') ?>
         <?= $this->loadCss('css/dscribe') ?>
-        <?= $this->loadIcon('img/logo.png') ?>
+        <?= $this->loadIcon('images/logo') ?>
         <?= $this->loadJs('js/jquery.min') ?>
         <style>
             body {
@@ -19,14 +22,22 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
                 margin-top:60px;
                 margin-bottom:100px;
             }
-            
+
             .navbar-fixed-bottom {
                 height:40px;
             }
-            
+
             .navbar-fixed-bottom hr {
                 margin-bottom: 10px;
                 border-color:#000;
+            }
+
+            .brand img {
+
+            }
+            
+            .nav img {
+                width:25px;
             }
         </style>
     </head>
@@ -43,10 +54,19 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </a>
-                                    <a href="<?= $this->home() ?>" class="brand"><?= $this->name ?></a>
+                                    <a href="<?= $this->home() ?>" class="brand">
+                                        <?= CMS::getSiteName() ?>
+                                    </a>
                                     <ul class="nav pull-right">
                                         <li class="dropdown <?= (in_array($this->controller(), array('user', 'preferences'))) ? 'active' : '' ?>">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i> Me</a>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                <?php if ($this->userIdentity()->getUser()->getPicture()): ?>
+                                                    <img src="<?= $this->userIdentity()->getUser()->getPicture() ?>" /> Me
+                                                <?php else:
+                                                    ?>
+                                                         <i class="icon-user icon-white"></i> Me
+                                                     <?php endif; ?>
+                                            </a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="<?= $this->url('cms', 'user', 'profile') ?>"><i class="icon-briefcase"></i> Profile</a></li>
                                                 <li class="divider"></li>
@@ -65,25 +85,30 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
                     </div>
                 </div>
             </header>
-            <?php
-            if ($this->flash()->hasMessage()) {
-                ?>
-                <div class="row-fluid">
-                    <div class="span10 offset1">
-                        <div class="alert alert-<?= ($this->flash()->hasErrorMessage()) ? 'error' : 'success' ?> no-close" style="text-align:center">
-                            <?=
-                            $this->flash()->hasErrorMessage() ? $this->flash()->getErrorMessage() :
-                                    $this->flash()->getSuccessMessage()
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <?php
-            }
-            ?>
             <div class="row-fluid">
                 <div class="span10 offset1">
                     <div class="container-fluid">
+                        <?php if ($this->flash()->hasMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-info" style="text-align:center">
+                                    <?= $this->flash()->getMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->flash()->hasSuccessMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-success" style="text-align:center">
+                                    <?= $this->flash()->getSuccessMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->flash()->hasErrorMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-error" style="text-align:center">
+                                    <?= $this->flash()->getErrorMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                         <div class="row-fluid">
                             <?= $content ?>
                         </div>
@@ -94,7 +119,7 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
                 <hr />
                 <div class="container">
                     <footer class="footer">
-                        &copy; 2014 <a target="_blank" href="http://ezraobiwale.com/dscribe">DScribe</a>
+                        &copy; 2014 <a target="_blank" href="http://dscribe.ezraobiwale.com/modules/cms">DScribe Framework CMS</a>
                     </footer>
                 </div>
             </div>

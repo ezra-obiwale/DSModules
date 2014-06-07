@@ -44,7 +44,7 @@ ob_start()
     }
 </style>
 <div class="row-fluid">
-    <div class="span9">
+    <div class="span9 well well-small">
         <?= TwBootstrap::accordion($groups, array('close' => true)) ?>
     </div>
     <div class="span3">
@@ -69,6 +69,6 @@ ob_start()
     </div>
 </div>
 <?php
-$this->loadLayout(DScribe\Core\Engine::getDefaultLayout(), array(
+$this->loadLayout('cms-main', array(
     'content' => ob_get_clean(),
 ));

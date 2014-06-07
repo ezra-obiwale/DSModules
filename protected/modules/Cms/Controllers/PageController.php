@@ -102,6 +102,8 @@ class PageController extends SuperController {
     }
 
     public function viewAction($categoryLink = null, $link = null) {
+        $settings = Engine::getConfig('modules', 'Cms', 'settings');
+
         // $categoryLink and $link will be null if calling for home page
         if ($categoryLink && $link) {
             $category = $this->service->getCategoryService()->findOneBy('link', $categoryLink);
@@ -115,6 +117,9 @@ class PageController extends SuperController {
             );
         }
         else { // get home page
+            if ($settings['listOnHomePage'])
+                $this->redirect('cms', 'article', 'list-categories');
+            
             $model = $this->service->getRepository()
                     ->join('category')
                     ->findOneBy('isHomePage', 1);
@@ -122,6 +127,9 @@ class PageController extends SuperController {
                 $category = $model->category()->first();
             }
         }
+
+        if (!$model)
+            throw new Exception('Page not found');
 
         $commentForm = new CommentForm();
         if ($this->request->isPost()) {
@@ -136,16 +144,11 @@ class PageController extends SuperController {
             }
         }
 
-        if (!$model)
-            throw new Exception('Page not found');
-
         if (in_array($this->currentUser->getRole(), array('subscriber', 'guest', 'admin'))) {
-            $settings = Engine::getConfig('modules', 'Cms', 'settings');
             $this->layout = $settings['template'];
             $this->layout .= ($model->getIsHomePage()) ?
                     Engine::getConfig('modules', 'Cms', 'defaults', 'homeLayout') :
                     Engine::getConfig('modules', 'Cms', 'defaults', 'pageLayout');
-            
         }
 
         CMS::init($this->getCurrentUserFromDB(), $this->service->getRepository(), $this->request, $this->view);

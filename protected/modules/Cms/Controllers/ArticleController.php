@@ -16,7 +16,7 @@ class ArticleController extends SuperController {
     public function accessRules() {
         return array_merge(array(
             array('allow', array(
-                    'actions' => array('view', 'cache-all', 'get-events', 'view-category', 'comments'),
+                    'actions' => array('view', 'cache-all', 'get-events', 'view-category', 'comments', 'list-categories'),
                 )),
                 ), parent::accessRules());
     }

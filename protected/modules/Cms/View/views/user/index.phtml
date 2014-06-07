@@ -6,56 +6,59 @@ foreach ($models as $model) {
     if ($this->userIdentity()->getUser()->getId() === $model->getId())
         continue;
 
-    $viewBtn = TwBootstrap::customModal(array(
-                'href' => $this->url('cms', 'user', 'view', array('id' => $model->getId())),
-                'linkLabel' => '<i class="icon-folder-open"></i>',
-                'linkAttrs' => array(
-                    'class' => 'btn btn-success',
-                    'title' => 'view details'
-                ),
-    ));
+//    $viewBtn = TwBootstrap::customModal(array(
+//                'href' => $this->url('cms', 'user', 'view', array('id' => $model->getId())),
+//                'linkLabel' => '<i class="icon-folder-open"></i>',
+//                'linkAttrs' => array(
+//                    'class' => 'btn btn-success',
+//                    'title' => 'view details'
+//                ),
+//    ));
+    $viewBtn = '<a class="btn btn-success btn-mini" href="' . $this->url('cms', 'user', 'view', array('id' => $model->getId())) . '"><i class="icon-folder-open"></i></a>';
 
-    $editBtn = TwBootstrap::customModal(array(
-                'href' => $this->url('cms', 'user', 'edit', array('id' => $model->getId())),
-                'linkLabel' => '<i class="icon-edit"></i>',
-                'linkAttrs' => array(
-                    'class' => 'btn btn-info',
-                    'title' => 'edit'
-                ),
-    ));
+//    $editBtn = TwBootstrap::customModal(array(
+//                'href' => $this->url('cms', 'user', 'edit', array('id' => $model->getId())),
+//                'linkLabel' => '<i class="icon-edit"></i>',
+//                'linkAttrs' => array(
+//                    'class' => 'btn btn-info',
+//                    'title' => 'edit'
+//                ),
+//    ));
+    $editBtn = '<a class="btn btn-info btn-mini" href="' . $this->url('cms', 'user', 'edit', array('id' => $model->getId())) . '"><i class="icon-edit"></i></a>';
 
-    $deleteBtn = TwBootstrap::customModal(array(
-                'href' => $this->url('cms', 'user', 'delete', array('id' => $model->getId())),
-                'linkLabel' => '<i class="icon-trash"></i>',
-                'linkAttrs' => array(
-                    'class' => 'btn btn-danger',
-                    'title' => 'delete'
-                ),
-    ));
+//    $deleteBtn = TwBootstrap::customModal(array(
+//                'href' => $this->url('cms', 'user', 'delete', array('id' => $model->getId())),
+//                'linkLabel' => '<i class="icon-trash"></i>',
+//                'linkAttrs' => array(
+//                    'class' => 'btn btn-danger',
+//                    'title' => 'delete'
+//                ),
+//    ));
+    $deleteBtn = '<a class="btn btn-danger btn-mini" href="' . $this->url('cms', 'user', 'delete', array('id' => $model->getId())) . '"><i class="icon-trash"></i></a>';
 
     Table::newRow();
 
     $fo = new FileOut();
     Table::addRowData($fo($model->getPicture(), array(
-                'attrs' => array(
-                    'alt' => 'Picture: ' . $model->getFullName()
-                )
+        'attrs' => array(
+            'alt' => 'Picture: ' . $model->getFullName()
+        )
             )), array('width' => '40px'));
     Table::addRowData($model->getFirstName());
     Table::addRowData($model->getLastName());
     Table::addRowData('<a title="send a mail with your email client" href="mailto:' . $model->getEmail() . '">' . $model->getEmail() . '</a>');
     Table::addRowData($model->getRole());
-    Table::addRowData($viewBtn . ' ' . $editBtn . ' ' . $deleteBtn, array('width' => '150px'));
+    Table::addRowData($viewBtn . ' ' . $editBtn . ' ' . $deleteBtn, array('width' => '100px'));
 }
 
-echo TwBootstrap::customModal(array(
-    'href' => $this->url('cms', 'user', 'new'),
-    'linkLabel' => 'New User',
-    'linkAttrs' => array(
-        'class' => 'btn btn-success',
-    ),
-    'modalId' => 'newUser',
-        ), false);
+//echo TwBootstrap::customModal(array(
+//    'href' => $this->url('cms', 'user', 'new'),
+//    'linkLabel' => 'New User',
+//    'linkAttrs' => array(
+//        'class' => 'btn btn-success',
+//    ),
+//    'modalId' => 'newUser',
+//        ), false);
 ?>
 <style>
     td {
@@ -66,7 +69,8 @@ echo TwBootstrap::customModal(array(
     <div class="span12">
         <h1>
             <small class="text-info">Users</small>
-            <?= TwBootstrap::modalLink('newUser') ?>
+            <!--<? TwBootstrap::modalLink('newUser') ?>-->
+            <a href="<?= $this->url('cms', 'user', 'new') ?>" class="btn btn-success">New User</a>
         </h1>
         <hr />
     </div>

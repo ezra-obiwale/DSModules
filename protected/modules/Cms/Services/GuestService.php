@@ -32,4 +32,14 @@ class GuestService extends GS {
         return false;
     }
 
+    private function createDemo() {
+        $mediaPath = ROOT . 'public' . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR;
+        if (!is_dir($mediaPath)) {
+            mkdir($mediaPath);
+        }
+        copy(MODULES . 'Cms' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR .
+                'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR .
+                'logo', $mediaPath . 'logo.png');
+    }
+
 }

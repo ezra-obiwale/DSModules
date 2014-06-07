@@ -93,6 +93,7 @@ class CMS {
     private static $votes;
     private static $rawPageMap;
     private static $map;
+    private static $links;
 
     /**
      * 
@@ -218,73 +219,79 @@ class CMS {
      * @return string
      */
     public static function createPageLinks() {
-        self::getView();
-        $categories = Engine::getDB()
-                ->table('category')
-                ->orderBy('parent')
-                ->orderBy('position')
-                ->orderBy('name')
-                ->customWhere('`:TBL:`.`id`="ROOT" OR `:TBL:`.`parent`="ROOT"')
-                ->join('category', array(
-                    'push' => true,
-                    'join' => array(
-                        'page' => array(
-                            'where' => array(array('status' => 1)),
+        if (!self::$links) {
+            self::getView();
+            $categories = Engine::getDB()
+                    ->table('category')
+                    ->orderBy('parent')
+                    ->orderBy('position')
+                    ->orderBy('name')
+                    ->customWhere('`:TBL:`.`id`="ROOT" OR `:TBL:`.`parent`="ROOT"')
+                    ->join('category', array(
+                        'push' => true,
+                        'join' => array(
+                            'page' => array(
+                                'where' => array(array('status' => 1)),
+                            )
                         )
-                    )
-                ))
-                ->join('page', array(
-                    'where' => array(array('status' => 1)),
-                ))
-                ->select(array(array(
-                'status' => 1,
-        )));
-
-        ob_start();
-        foreach ($categories as $category) {
-            $pages = $category->page(array(
-                'orderBy' => 'position',
-                'where' => array(array(
-                        'status' => 1
                     ))
-            ));
-            $subCategories = $category->category(array(
-                'orderBy' => 'position',
-                'push' => true,
-                'where' => array(array(
-                        'status' => 1
+                    ->join('page', array(
+                        'where' => array(array('status' => 1)),
                     ))
-            ));
+                    ->select(array(array(
+                    'status' => 1,
+            )));
 
-            $active = false;
-            ob_start();
-            foreach ($pages as $page) {
-                if (self::$page && self::$page->getId() === $page->id)
-                    $active = true;
-                ?>
-                <li <?= (self::$page && self::$page->getId() === $page->id) ? 'class="active"' : '' ?>><a class="auto" tabindex="-1" href="<?= self::getView()->url('cms', 'page', 'view', array($category->link, $page->link)) ?>"><?= $page->title ?></a></li>
-                <?php
+            foreach ($categories as $category) {
+                $pages = $category->page(array(
+                    'orderBy' => 'position',
+                    'where' => array(array(
+                            'status' => 1
+                        ))
+                ));
+                $subCategories = $category->category(array(
+                    'orderBy' => 'position',
+                    'push' => true,
+                    'where' => array(array(
+                            'status' => 1
+                        ))
+                ));
+
+                $active = false;
+                ob_start();
+                foreach ($pages as $page) {
+                    if (self::$page && self::$page->getId() === $page->id) {
+                        self::$rawPageMap[$category->link . '/' . $page->link] = $page->title;
+                        self::$rawPageMap[$category->link] = $category->name;
+                        $active = true;
+                    }
+                    ?>
+                    <li <?= (self::$page && self::$page->getId() === $page->id) ? 'class="active"' : '' ?>><a class="auto" tabindex="-1" href="<?= self::getView()->url('cms', 'page', 'view', array($category->link, $page->link)) ?>"><?= $page->title ?></a></li>
+                    <?php
+                }
+                $pageList = ob_get_clean();
+
+                ob_start();
+                if ($category->id === 'ROOT') {
+                    echo $pageList;
+                }
+                else {
+                    $subCatLinks = self::subCategoryLinks($subCategories, $active);
+                    ?>
+                    <li class="dropdown <?= $active ? 'active' : '' ?>">
+                        <a tabindex="-1" href="#" <?= ($pages->count() || $subCategories->count()) ? 'class="dropdown-toggle" data-toggle="dropdown"' : '' ?>><?= $category->name ?> <b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                            <?= $pageList ?>
+                            <?= $subCatLinks ?>
+                        </ul>
+                    </li>
+                    <?php
+                }
+                self::$links .= ob_get_clean();
             }
-            $pageList = ob_get_clean();
-
-            if ($category->id === 'ROOT') {
-                echo $pageList;
-                continue;
-            }
-
-            $subCatLinks = self::subCategoryLinks($subCategories, $active);
-            ?>
-            <li class="dropdown <?= $active ? 'active' : '' ?>">
-                <a tabindex="-1" href="#" <?= ($pages->count() || $subCategories->count()) ? 'class="dropdown-toggle" data-toggle="dropdown"' : '' ?>><?= $category->name ?> <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                    <?= $pageList ?>
-                    <?= $subCatLinks ?>
-                </ul>
-            </li>
-            <?php
         }
 
-        return ob_get_clean();
+        return self::$links;
     }
 
     private static function subCategoryLinks(ArrayCollection $categories, &$superActive) {
@@ -438,10 +445,12 @@ class CMS {
      * their pages
      * @return string
      */
-    public static function createPageMap($join = '/', $linked = true) {
+    public static function createPageMap($join = ' / ', $linked = true) {
+//        self::createPageLinks();
         if (!self::$map && self::$rawPageMap) {
             self::$map = '';
-            foreach (self::$rawPageMap as $link => $label) {
+            (print_r(self::$rawPageMap));
+            foreach (array_reverse(self::$rawPageMap) as $link => $label) {
                 if (!empty(self::$map)) {
                     self::$map .= $join;
                 }
@@ -453,7 +462,6 @@ class CMS {
                     self::$map .= '</a>';
             }
         }
-        var_dump(self::$rawPageMap);
         return self::$map;
     }
 

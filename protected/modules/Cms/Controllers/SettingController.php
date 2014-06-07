@@ -16,21 +16,21 @@ class SettingController extends SuperController {
 
     public function viewAction() {
         $form = $this->service->getForm();
+        $settings = \DScribe\Core\Engine::getConfig('modules', 'Cms', 'settings');
         if ($this->request->isPost()) {
             $form->setData($this->request->getPost());
             if ($form->isValid() && $this->service->updateSettings($form->getData(), $this->request->getFiles())) {
                 $this->flash()->setSuccessMessage('Settings saved successfully');
-                $this->redirect();
             }
             $this->flash()->setErrorMessage('Save settings failed');
         }
         else {
-            $settings = \DScribe\Core\Engine::getConfig('modules', 'Cms', 'settings');
             if ($template = stristr($settings['template'], DIRECTORY_SEPARATOR, true)) {
                 $settings['template'] = $template;
             }
             $form->setData($settings);
         }
+        $settings = \DScribe\Core\Engine::getConfig('modules', 'Cms', 'settings');
 
         $this->view->variables(array(
             'form' => $form,
