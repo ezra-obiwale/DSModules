@@ -43,4 +43,24 @@ class GuestController extends GC {
         ));
     }
 
+    public function setupAction() {
+        if ($this->service->getRepository()->limit(1)->select()->execute()->first()) {
+            $this->redirect($this->getModule(), $this->getClassName(), 'login');
+        }
+        $this->setup = true;
+        $return = $this->registerAction();
+        $submit = $return->getVariables('form')->get('submit');
+        $submit->options->value = 'Let\'s Begin';
+        $return->getVariables('form')->remove('submit')
+                ->add(array(
+                    'name' => 'demo',
+                    'type' => 'checkbox',
+                    'options' => array(
+                        'label' => 'Create demo categories and pages'
+                    )
+                ))
+                ->add($submit->toArray());
+        return $return->variables(array('title' => 'CMS Setup'));
+    }
+
 }

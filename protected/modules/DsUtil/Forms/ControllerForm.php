@@ -49,7 +49,6 @@ class ControllerForm extends Form {
 				'values' => $this->controllers,
 			),
 			'attributes' => array(
-				'multiple' => 'multiple',
 				'size' => 6
 			)
 		));
