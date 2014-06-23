@@ -49,16 +49,20 @@ class ControllersService extends SuperService {
 		$layouts = array();
 		$defTheme = Engine::getConfig('defaults', 'theme', false);
 		if (is_dir(THEMES . $defTheme . DIRECTORY_SEPARATOR . 'layouts')) {
-			foreach (\Util::readDir(THEMES . $defTheme . DIRECTORY_SEPARATOR . 'layouts', \Util::FILES_ONLY) as $path) {
-				$info = \Util::pathInfo($path);
+			foreach (\Util::readDir(THEMES . $defTheme . DIRECTORY_SEPARATOR . 'layouts', \Util::FILES_ONLY) as $pathsArray) {
+                            foreach ($pathsArray as $path){
+				$info = pathinfo($path);
 				$layouts[$info['filename']] = $info['filename'] . ' (T)';
+                            }
 			}
 		}
 
 		if (is_dir(MODULES . $module . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'layouts')) {
-			foreach (\Util::readDir(MODULES . $module . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'layouts', \Util::FILES_ONLY) as $path) {
-				$info = \Util::pathInfo($path);
+			foreach (\Util::readDir(MODULES . $module . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'layouts', \Util::FILES_ONLY) as $pathsArray) {
+				foreach ($pathsArray as $path){
+				$info = pathinfo($path);
 				$layouts[$info['filename']] = $info['filename'] . ' (M)';
+                            }
 			}
 		}
 
@@ -98,7 +102,7 @@ class ControllersService extends SuperService {
 		if (!empty($data->actions))
 			$actions = explode(',', $data->actions);
 
-		$extend = (!empty($data->extend)) ? $data->extend : 'DScribe\Core\AController';
+                $extend = (!empty($data->extend)) ? $data->extend : 'DScribe\Core\AController';
 		$extendInfo = pathinfo(str_replace('\\','/', $extend));
 
 		ob_start();

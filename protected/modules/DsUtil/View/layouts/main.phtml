@@ -44,18 +44,29 @@
                 <div class="row-fluid">
                     <div class="span12">
                         <?php if ($this->flash()->hasMessage()): ?>
-                            <div class="text-<?= ($this->flash()->hasErrorMessage()) ? 'error' : 'success' ?>" style="text-align:center">
-                                <?=
-                                ($this->flash()->hasErrorMessage()) ? $this->flash()->getErrorMessage() :
-                                        $this->flash()->getSuccessMessage()
-                                ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-info" style="text-align:center">
+                                    <?= $this->flash()->getMessage() ?>
+                                </div>
                             </div>
                         <?php endif; ?>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class="span12">
-                        <?= $content ?>
+                        <?php if ($this->flash()->hasSuccessMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-success" style="text-align:center">
+                                    <?= $this->flash()->getSuccessMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($this->flash()->hasErrorMessage()): ?>
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-error" style="text-align:center">
+                                    <?= $this->flash()->getErrorMessage() ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                        <div class="row-fluid">
+                            <?= $content ?>
+                        </div>
                     </div>
                 </div>
                 <div class="navbar navbar-fixed-bottom" style="height:50px">
