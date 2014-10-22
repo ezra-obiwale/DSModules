@@ -4,7 +4,7 @@ Table::setHeaders(array('', 'Name', 'Link', ''));
 
 foreach ($models as $model) {
     $editBtn = '<a title="edit" href="' . $this->url('cms', 'social', 'edit', array($model->getId())) . '" class="btn btn-mini btn-info"><i class="icon-edit"></i></a>';
-    $deleteBtn = '<a title="delete" href="' . $this->url('cms', 'social', 'delete', array($model->getId())) . '" class="btn btn-mini btn-danger"><i class="icon-trash"></i></a>';
+    $deleteBtn = '<a title="delete" href="' . $this->url('cms', 'social', 'delete', array($model->getId())) . '">delete</a>';
 
     Table::newRow();
     Table::addRowData('<img src="' . $model->getImage() . '" />', array('width' => '50px'));

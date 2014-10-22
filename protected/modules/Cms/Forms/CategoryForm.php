@@ -29,7 +29,7 @@ class CategoryForm extends Form {
                 )
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'autofocus' => 'autofocus'
             )
         ));
@@ -41,7 +41,7 @@ class CategoryForm extends Form {
                 'label' => 'Name'
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'autocomplete' => 'off',
             )
         ));
@@ -53,7 +53,7 @@ class CategoryForm extends Form {
                 'label' => 'Link'
             ),
             'attributes' => array(
-                'maxLength' => 220,
+                'maxlength' => 220,
                 'autocomplete' => 'off',
             )
         ));

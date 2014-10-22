@@ -21,7 +21,7 @@ class SlideForm extends Form {
                 'label' => 'Code Name'
             ),
             'attributes' => array(
-                'maxLength' => 220
+                'maxlength' => 220
             )
         ));
 

@@ -25,11 +25,6 @@ class ArticleController extends SuperController {
         return true;
     }
 
-    public function init() {
-        parent::init();
-        $this->layout = 'admin';
-    }
-
     public function indexAction() {
         $this->view->variables(array(
             'groupedArticles' => $this->service->parseArticles(),
@@ -69,11 +64,9 @@ class ArticleController extends SuperController {
         if (!$model)
             throw new Exception('Page not found');
 
-        if (in_array($this->currentUser->getRole(), array('subscriber', 'guest', 'admin'))) {
-            $settings = Engine::getConfig('modules', 'Cms', 'settings');
-            $this->layout = $settings['template'];
-            $this->layout .= Engine::getConfig('modules', 'Cms', 'defaults', 'articleLayout');
-        }
+        $settings = Engine::getConfig('modules', 'Cms', 'settings');
+        $this->layout = $settings['template'];
+        $this->layout .= Engine::getConfig('modules', 'Cms', 'defaults', 'articleLayout');
 
         CMS::init($this->currentUser, $this->service->getRepository(), $this->request, $this->view);
         CMS::setSettings($settings);
@@ -126,11 +119,9 @@ class ArticleController extends SuperController {
     }
 
     public function listCategoriesAction() {
-        if (in_array($this->currentUser->getRole(), array('subscriber', 'guest', 'admin'))) {
-            $settings = Engine::getConfig('modules', 'Cms', 'settings');
-            $this->layout = $settings['template'];
-            $this->layout .= Engine::getConfig('modules', 'Cms', 'defaults', 'articleCategoriesLayout');
-        }
+        $settings = Engine::getConfig('modules', 'Cms', 'settings');
+        $this->layout = $settings['template'];
+        $this->layout .= Engine::getConfig('modules', 'Cms', 'defaults', 'articleCategoriesLayout');
 
         CMS::init($this->currentUser, $this->service->getRepository(), $this->request, $this->view);
 
@@ -138,11 +129,9 @@ class ArticleController extends SuperController {
     }
 
     public function viewCategoryAction($category) {
-        if (in_array($this->currentUser->getRole(), array('subscriber', 'guest', 'admin'))) {
-            $settings = Engine::getConfig('modules', 'Cms', 'settings');
-            $this->layout = $settings['template'];
-            $this->layout .= Engine::getConfig('modules', 'Cms', 'defaults', 'articleCategoryLayout');
-        }
+        $settings = Engine::getConfig('modules', 'Cms', 'settings');
+        $this->layout = $settings['template'];
+        $this->layout .= Engine::getConfig('modules', 'Cms', 'defaults', 'articleCategoryLayout');
 
         CMS::init($this->currentUser, $this->service->getRepository(), $this->request, $this->view);
         $category = ucfirst(str_replace('-', ' ', $category));

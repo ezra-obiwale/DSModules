@@ -17,7 +17,7 @@ class MediaForm extends FileForm {
                 'label' => 'Name'
             ),
             'attributes' => array(
-                'maxLength' => 220,
+                'maxlength' => 220,
                 'autofocus' => 'autofocus'
             )
         ));
@@ -40,7 +40,7 @@ class MediaForm extends FileForm {
                 'label' => 'Description'
             ),
             'attributes' => array(
-                'maxLength' => 300,
+                'maxlength' => 300,
                 'rows' => 6,
             )
         ));

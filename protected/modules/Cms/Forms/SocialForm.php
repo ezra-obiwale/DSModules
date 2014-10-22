@@ -17,7 +17,7 @@ class SocialForm extends FileForm {
                 'label' => 'Name'
             ),
             'attributes' => array(
-                'maxLength' => 100
+                'maxlength' => 100
             )
         ));
 
@@ -28,7 +28,7 @@ class SocialForm extends FileForm {
                 'label' => 'Link'
             ),
             'attributes' => array(
-                'maxLength' => 500
+                'maxlength' => 500
             )
         ));
 

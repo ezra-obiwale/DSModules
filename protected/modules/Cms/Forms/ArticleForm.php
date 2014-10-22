@@ -21,7 +21,7 @@ class ArticleForm extends Form {
                 'value' => 'Default'
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'class' => 'span12',
                 'placeholder' => 'Type to see exiting categories',
                 'autocomplete' => 'off',
@@ -37,7 +37,7 @@ class ArticleForm extends Form {
                 'label' => 'Title'
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'class' => 'span12',
                 'required' => 'required',
                 'autocomplete' => 'off',
@@ -51,7 +51,7 @@ class ArticleForm extends Form {
                 'label' => 'Link'
             ),
             'attributes' => array(
-                'maxLength' => 220,
+                'maxlength' => 220,
                 'class' => 'span12',
                 'required' => 'required',
                 'autocomplete' => 'off',
@@ -67,7 +67,7 @@ class ArticleForm extends Form {
             'attributes' => array(
                 'class' => 'span12',
                 'rows' => 2,
-                'maxLength' => 200
+                'maxlength' => 200
             )
         ));
 

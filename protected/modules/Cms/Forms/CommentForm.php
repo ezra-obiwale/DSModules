@@ -20,7 +20,7 @@ class CommentForm extends Form {
                 'label' => 'Comment <span class="text-info pull-right" style="font-size:smaller">(<i>250 characters maximum</i>)</span>'
             ),
             'attributes' => array(
-                'maxLength' => 250,
+                'maxlength' => 250,
                 'class' => 'span12',
                 'rows' => 4
             )

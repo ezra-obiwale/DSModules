@@ -26,7 +26,7 @@ class SettingForm extends FileForm {
                 'label' => 'Site Name / Header'
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'class' => 'span12'
             )
         ));

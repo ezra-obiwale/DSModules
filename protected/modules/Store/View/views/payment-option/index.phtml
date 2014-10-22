@@ -1,0 +1,32 @@
+<?php
+Table::init(array('class' => 'table table-striped'));
+Table::setHeaders(array('Name', 'Description', 'Status', 'Id', ''));
+
+foreach ($models as $model) {
+    $viewBtn = '<a title="view details" href="' . $this->url('store', 'payment-option', 'view', array($model->getId())) . '" class="btn btn-mini btn-success"><i class="icon-folder-open"></i></a>';
+    $editBtn = '<a title="edit" href="' . $this->url('store', 'payment-option', 'edit', array($model->getId())) . '">edit</a>';
+    $deleteBtn = '<a title="delete" href="' . $this->url('store', 'payment-option', 'delete', array($model->getId())) . '">delete</a>';
+
+    Table::newRow();
+
+    Table::addRowData($model->getName());
+    Table::addRowData($model->getDescription());
+    Table::addRowData($model->getStatus());
+    Table::addRowData($model->getId());
+    Table::addRowData($editBtn . ' ' . $deleteBtn, array('width' => '100px'));
+}
+?>
+<div class="row-fluid">
+    <div class="span12">
+        <h1>
+            <small class="text-error">Payment Options</small>
+            <a href="<?= $this->url('store', 'payment-option', 'new') ?>" class="btn btn-success pull-right">New PaymentOption</a>
+        </h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <?= Table::render() ?>
+    </div>
+</div>

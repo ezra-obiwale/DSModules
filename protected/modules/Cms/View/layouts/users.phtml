@@ -8,7 +8,6 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?= $this->loadCss('css/bootstrap.min') ?>
-        <?= $this->loadCss('css/bootstrap-responsive.min') ?>
         <?= $this->loadCss('css/demo_table') ?>
         <?= $this->loadCss('css/jquery.ui.core.min') ?>
         <?= $this->loadCss('css/jquery.ui.datepicker.min') ?>
@@ -19,8 +18,8 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
         <style>
             body {
                 position:relative;
-                margin-top:60px;
-                margin-bottom:100px;
+                padding-top:80px;
+                padding-bottom:100px;
             }
 
             .navbar-fixed-bottom {
@@ -35,11 +34,12 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
             .brand img {
 
             }
-            
+
             .nav img {
                 width:25px;
             }
         </style>
+        <?= $this->loadCss('css/bootstrap-responsive.min') ?>
     </head>
     <body>
         <div class="container-fluid">
@@ -64,8 +64,8 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
                                                     <img src="<?= $this->userIdentity()->getUser()->getPicture() ?>" /> Me
                                                 <?php else:
                                                     ?>
-                                                         <i class="icon-user icon-white"></i> Me
-                                                     <?php endif; ?>
+                                                    <i class="icon-user icon-white"></i> Me
+                                                <?php endif; ?>
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="<?= $this->url('cms', 'user', 'profile') ?>"><i class="icon-briefcase"></i> Profile</a></li>
@@ -87,31 +87,29 @@ $this->loadAsset('img/glyphicons-halflings.png')->loadAsset('img/glyphicons-half
             </header>
             <div class="row-fluid">
                 <div class="span10 offset1">
-                    <div class="container-fluid">
-                        <?php if ($this->flash()->hasMessage()): ?>
-                            <div class="row-fluid">
-                                <div class="span12 alert alert-info" style="text-align:center">
-                                    <?= $this->flash()->getMessage() ?>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ($this->flash()->hasSuccessMessage()): ?>
-                            <div class="row-fluid">
-                                <div class="span12 alert alert-success" style="text-align:center">
-                                    <?= $this->flash()->getSuccessMessage() ?>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ($this->flash()->hasErrorMessage()): ?>
-                            <div class="row-fluid">
-                                <div class="span12 alert alert-error" style="text-align:center">
-                                    <?= $this->flash()->getErrorMessage() ?>
-                                </div>
-                            </div>
-                        <?php endif; ?>
+                    <?php if ($this->flash()->hasMessage()): ?>
                         <div class="row-fluid">
-                            <?= $content ?>
+                            <div class="span12 alert alert-info" style="text-align:center">
+                                <?= $this->flash()->getMessage() ?>
+                            </div>
                         </div>
+                    <?php endif; ?>
+                    <?php if ($this->flash()->hasSuccessMessage()): ?>
+                        <div class="row-fluid">
+                            <div class="span12 alert alert-success" style="text-align:center">
+                                <?= $this->flash()->getSuccessMessage() ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->flash()->hasErrorMessage()): ?>
+                        <div class="row-fluid">
+                            <div class="span12 alert alert-error" style="text-align:center">
+                                <?= $this->flash()->getErrorMessage() ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <div class="row-fluid">
+                        <?= $content ?>
                     </div>
                 </div>
             </div>

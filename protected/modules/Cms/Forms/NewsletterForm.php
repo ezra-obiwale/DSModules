@@ -20,7 +20,7 @@ class NewsletterForm extends Form {
                 'label' => 'Title'
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'class' => 'span12'
             )
         ));
@@ -32,7 +32,7 @@ class NewsletterForm extends Form {
                 'label' => 'Link'
             ),
             'attributes' => array(
-                'maxLength' => 220,
+                'maxlength' => 220,
                 'class' => 'span12'
             )
         ));

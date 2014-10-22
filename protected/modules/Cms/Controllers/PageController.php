@@ -119,7 +119,7 @@ class PageController extends SuperController {
         else { // get home page
             if ($settings['listOnHomePage'])
                 $this->redirect('cms', 'article', 'list-categories');
-            
+
             $model = $this->service->getRepository()
                     ->join('category')
                     ->findOneBy('isHomePage', 1);
@@ -144,12 +144,10 @@ class PageController extends SuperController {
             }
         }
 
-        if (in_array($this->currentUser->getRole(), array('subscriber', 'guest', 'admin'))) {
-            $this->layout = $settings['template'];
-            $this->layout .= ($model->getIsHomePage()) ?
-                    Engine::getConfig('modules', 'Cms', 'defaults', 'homeLayout') :
-                    Engine::getConfig('modules', 'Cms', 'defaults', 'pageLayout');
-        }
+        $this->layout = $settings['template'];
+        $this->layout .= ($model->getIsHomePage()) ?
+                Engine::getConfig('modules', 'Cms', 'defaults', 'homeLayout') :
+                Engine::getConfig('modules', 'Cms', 'defaults', 'pageLayout');
 
         CMS::init($this->getCurrentUserFromDB(), $this->service->getRepository(), $this->request, $this->view);
         CMS::setSettings($settings);

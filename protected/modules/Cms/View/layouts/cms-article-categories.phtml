@@ -1,5 +1,6 @@
 <?php
 $groups = array();
+$onARow = 2; // 1 | 2 | 3 | 4 | 6 | 12
 foreach ($groupedArticles as $category => $articlesArray) {
     $group = array(
         'heading' => $category,
@@ -10,10 +11,10 @@ foreach ($groupedArticles as $category => $articlesArray) {
         <div class="row-fluid thumbnails">
             <?php
             foreach ($articlesArray as $key => $article) {
-                if ($key > 4)
+                if ($key > $onARow)
                     break;
                 ?>
-                <div class="span3 thumbnail" style="height:120px;">
+                <div class="span<?= 12 / $onARow ?> thumbnail" style="height:120px;">
                     <h2><small><a href="<?= $this->url('cms', 'article', 'view', array($article->getCategoryLink(), $article->getLink())) ?>"><?= $article->getTitle() ?></a></small></h2>
                     <p><?= Util::shortenString(strip_tags($article->getContent())) ?></p>
                 </div>
@@ -21,7 +22,7 @@ foreach ($groupedArticles as $category => $articlesArray) {
             }
             ?>
         </div>
-        <?php if (count($articlesArray) > 4): ?>
+        <?php if (count($articlesArray) > $onARow): ?>
             <div class="row-fluid" style="margin-top:15px;">
                 <div class="span12">
                     <a class="btn-link text-success" href="<?= $this->url('cms', 'article', 'view-category', array($article->getCategoryLink())) ?>">see all articles</a>

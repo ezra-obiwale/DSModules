@@ -29,10 +29,6 @@ class PageService extends SuperService {
      */
     protected $dsUtilFormsService;
 
-    protected function init() {
-        parent::init();
-    }
-
     public function getCategoryService() {
         if (!$this->categoryService)
             $this->categoryService = new CategoryService();
@@ -42,8 +38,11 @@ class PageService extends SuperService {
 
     public function getForm($model = null) {
         parent::getForm();
-        $noOfPagesInCategory = ($model) ? $this->repository->count('id', array(array('category' => $model->getCategory()))) : 0;
-        return $this->form->completeConstruct($noOfPagesInCategory);
+        $noOfPagesInCategory = $this->repository->count('id', array(array('category' => ($model) ? $model->getCategory() : 'ROOT')));
+        if (!$model)
+            $noOfPagesInCategory++;
+
+        return $this->form->completeConstruct($noOfPagesInCategory, $model === null);
     }
 
     public function create(Page $model) {

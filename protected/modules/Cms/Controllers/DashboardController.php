@@ -24,11 +24,6 @@ class DashboardController extends SuperController {
         );
     }
 
-    public function init() {
-        parent::init();
-        $this->layout = 'admin';
-    }
-
     public function noCache() {
         return true;
     }
@@ -43,8 +38,7 @@ class DashboardController extends SuperController {
 
     public function editorAction() {
         return $this->view->variables(array(
-                    'categories' => $this->service->getCategoryService()->fetchAll(),
-                    'pages' => $this->service->getPageService()->fetchAll(),
+                    'articles' => $this->service->getArticleService()->fetchAll(),
         ));
     }
 

@@ -1,0 +1,15 @@
+<div class="row-fluid">
+    <div class="span12">
+        <h1><small class="text-error">Delete Item</small></h1>
+        <hr />
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span8 offset1">
+        <p>Are you sure you want to delete?</p>
+        <p class="form-actions">
+            <a href="<?= $this->url('store', 'item', 'delete', array($model->getCategory(), $model->getLink(), 'confirm' => 1)) ?>" class="btn btn-danger">Delete</a>
+            <a href="<?= $this->url('store', 'item', 'index') ?>" class="btn">Cancel</a>
+        </p>
+    </div>
+</div>

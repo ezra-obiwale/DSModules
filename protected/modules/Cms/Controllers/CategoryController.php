@@ -14,11 +14,6 @@ class CategoryController extends SuperController {
         return true;
     }
 
-    public function init() {
-        parent::init();
-        $this->layout = 'admin';
-    }
-
     public function newAction() {
         if (isset($this->request->getPost()->saveAndNewPage)) {
             $id = \DBScribe\Util::createGUID();

@@ -5,7 +5,7 @@ Table::setHeaders(array('Category Name', 'Category Link', 'Page Title', 'Page Li
 foreach ($models as $model) {
     $viewBtn = '<a title="view details" href="' . $this->url('cms', 'links-meta', 'view', array($model->getId())) . '" class="btn btn-mini btn-success"><i class="icon-folder-open"></i></a>';
     $editBtn = '<a title="edit" href="' . $this->url('cms', 'links-meta', 'edit', array($model->getId())) . '" class="btn btn-mini btn-info"><i class="icon-edit"></i></a>';
-    $deleteBtn = '<a title="delete" href="' . $this->url('cms', 'links-meta', 'delete', array($model->getId())) . '" class="btn btn-mini btn-danger"><i class="icon-trash"></i></a>';
+    $deleteBtn = '<a title="delete" href="' . $this->url('cms', 'links-meta', 'delete', array($model->getId())) . '">delete</a>';
 
     Table::newRow();
 
@@ -13,7 +13,7 @@ foreach ($models as $model) {
     Table::addRowData($model->getCategoryLink());
     Table::addRowData($model->getPageTitle());
     Table::addRowData($model->getPageLink());
-    Table::addRowData($viewBtn . ' ' . $editBtn . ' ' . $deleteBtn, array('width' => '100px'));
+    Table::addRowData($editBtn . ' ' . $deleteBtn, array('width' => '100px'));
 }
 ?>
 <div class="row-fluid">

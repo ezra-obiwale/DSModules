@@ -235,9 +235,9 @@ class CMS {
                             )
                         )
                     ))
-                    ->join('page', array(
-                        'where' => array(array('status' => 1)),
-                    ))
+//                    ->join('page', array(
+//                        'where' => array(array('status' => 1)),
+//                    ))
                     ->select(array(array(
                     'status' => 1,
             )));

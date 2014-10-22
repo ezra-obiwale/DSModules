@@ -6,6 +6,7 @@ use Cms\Models\Category,
     Cms\Models\User,
     DScribe\Core\Repository,
     DScribe\Form\Form,
+    DScribe\View\View,
     DSLive\Services\GuestService as GS;
 
 class GuestService extends GS {
@@ -19,7 +20,7 @@ class GuestService extends GS {
         return $catRepo->join('page')->fetchAll();
     }
 
-    public function register(\DScribe\View\View $view, array $controllerPath, Form $form, $setup = false, $flush = true) {
+    public function register(View $view, array $controllerPath, Form $form, $setup = false, $flush = true) {
         if (parent::register($view, $controllerPath, $form, $setup, false)) {
             if ($form->getData()->demo == 1) {
                 if (!$this->createDemo()) {
@@ -40,6 +41,12 @@ class GuestService extends GS {
         copy(MODULES . 'Cms' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR .
                 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR .
                 'logo', $mediaPath . 'logo.png');
+        
+        return false;
+    }
+
+    public function setup() {
+        
     }
 
 }

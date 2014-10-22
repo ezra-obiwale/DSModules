@@ -210,7 +210,10 @@ if (!empty($data->noCache)):
 				break;
 
 			$headers .= "'" . ucwords(str_replace('_', ' ', $properties[$i])) . "',";
-			$columns .= "\n\t\t\t\t" . 'Table::addRowData($model->get' . ucfirst(\Util::_toCamel($properties[$i])) . '());';
+                        if ($i)
+                            $columns .= "\n\t\t" . 'Table::addRowData(\'<a title="view details" href="\' . $this->url(\'' . \Util::camelToHyphen($module) . '\', \'' . \Util::camelToHyphen($data->name) . '\', \'view\', array($model->getId())) . \'">\' . $model->get' . ucfirst(\Util::_toCamel($properties[$i])) . '() . \'</a>\');';
+                        else
+                            $columns .= "\n\t\t" . 'Table::addRowData($model->get' . ucfirst(\Util::_toCamel($properties[$i])) . '());';
 		}
 
 		$headers = substr($headers, 0, strlen($headers) - 1);
@@ -221,29 +224,28 @@ Table::init(array('class' => 'table table-striped'));
 Table::setHeaders(array(<?= $headers ?>, ''));
 
 foreach ($models as $model) {
-	$viewBtn = '<a title="view details" href="' . $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'view', array($model->getId())) . '" class="btn btn-mini btn-success"><i class="icon-folder-open"></i></a>';
-	$editBtn = '<a title="edit" href="' . $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'edit', array($model->getId())) . '" class="btn btn-mini btn-info"><i class="icon-edit"></i></a>';
-	$deleteBtn = '<a title="delete" href="' . $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'delete', array($model->getId())) . '" class="btn btn-mini btn-danger"><i class="icon-trash"></i></a>';
+    $editBtn = '<a title="edit" href="' . $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'edit', array($model->getId())) . '" class="btn btn-mini btn-info"><i class="icon-edit"></i></a>';
+    $deleteBtn = '<a title="delete" href="' . $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'delete', array($model->getId())) . '" class="btn btn-mini btn-danger"><i class="icon-trash"></i></a>';
 
-	Table::newRow();
-	<?= $columns ?>
+    Table::newRow();
+    <?= $columns ?>
 
-	Table::addRowData($viewBtn . ' ' . $editBtn . ' ' . $deleteBtn, array('width' => '100px'));
+    Table::addRowData($editBtn . ' ' . $deleteBtn, array('width' => '120px'));
 }
 ?>
 <div class="row-fluid">
-	<div class="span12">
-		<h1>
-			<small class="text-error"><?= ucwords(str_replace('_', ' ', \Util::camelTo_($data->name))) ?>s</small>
-			<a href="<\?= $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'new') ?>" class="btn btn-success pull-right">New <?= ucfirst($data->name) ?></a>
-		</h1>
-		<hr />
-	</div>
+    <div class="span12">
+        <h1>
+            <small class="text-error"><?= ucwords(str_replace('_', ' ', \Util::camelTo_($data->name))) ?>s</small>
+            <a href="<\?= $this->url('<?= \Util::camelToHyphen($module) ?>', '<?= \Util::camelToHyphen($data->name) ?>', 'new') ?>" class="btn btn-success pull-right">New <?= ucfirst($data->name) ?></a>
+        </h1>
+        <hr />
+    </div>
 </div>
 <div class="row-fluid">
-	<div class="span12">
-		<\?= Table::render() ?>
-	</div>
+    <div class="span12">
+        <\?= Table::render() ?>
+    </div>
 </div>
 		<?php
 		return ob_get_clean();
@@ -287,7 +289,7 @@ foreach ($models as $model) {
 </div>
 <script>
     $(function(){
-        $('form#<\?= $form->getName() ?> input[type="submit"]').parent().append('<input class="btn btn-primary" type="submit" name="saveAndNew" value="Save and Add New" />');        
+        $('form#<\?= $form->getName() ?> [type="submit"]').parent().append('<input class="btn btn-primary" type="submit" name="saveAndNew" value="Save and Add New" />');        
     });
 </script>
 		<?php

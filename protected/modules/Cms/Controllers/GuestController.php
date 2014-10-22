@@ -62,5 +62,11 @@ class GuestController extends GC {
                 ->add($submit->toArray());
         return $return->variables(array('title' => 'CMS Setup'));
     }
+    
+    public function loginAction($module = null, $controller = null, $action = null, $params = null) {
+        $module = !$module ? 'cms' : $module;
+        $controller = !$controller ? 'dashboard' : $controller;
+        parent::loginAction($module, $controller, $action, $params);
+    }
 
 }

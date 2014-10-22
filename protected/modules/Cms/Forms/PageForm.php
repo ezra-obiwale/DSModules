@@ -39,7 +39,7 @@ class PageForm extends Form {
                 'label' => 'Title'
             ),
             'attributes' => array(
-                'maxLength' => 160,
+                'maxlength' => 160,
                 'class' => 'span12',
                 'autocomplete' => 'off',
             )
@@ -52,7 +52,7 @@ class PageForm extends Form {
                 'label' => 'Link'
             ),
             'attributes' => array(
-                'maxLength' => 220,
+                'maxlength' => 220,
                 'class' => 'span12',
                 'autocomplete' => 'off',
             )
@@ -67,7 +67,7 @@ class PageForm extends Form {
             'attributes' => array(
                 'class' => 'span12',
                 'rows' => 2,
-                'maxLength' => 200
+                'maxlength' => 200
             )
         ));
 
@@ -95,13 +95,17 @@ class PageForm extends Form {
         ));
     }
 
-    public function completeConstruct($noOfPagesInCategory) {
+    public function completeConstruct($noOfPagesInCategory, $new) {
+        $values = Util::prepareArrayForSelect(range(1, $noOfPagesInCategory));
+        if ($new)
+            $values = array_reverse($values, true);
+
         $this->add(array(
             'name' => 'position',
             'type' => 'select',
             'options' => array(
                 'label' => 'Position',
-                'values' => Util::prepareArrayForSelect(range(1, $noOfPagesInCategory))
+                'values' => $values
             ),
             'attributes' => array(
             )
@@ -156,6 +160,10 @@ class PageForm extends Form {
             ),
             'content' => array(
                 'required' => true,
+                'AllowTags' => '<b><div><p><i><u><em><strong><table><thead>'
+                . '<tbody><tfoot><th><tr><td><video><source><audio><ul><li><ol>'
+                . '<span><pre><hr><br><code><blockquote><img><a><section><header>'
+                . '<footer><aside><cite><h1><h2><h3><h4><h5><h6><small>'
             ),
             'status' => array(
                 'required' => true,

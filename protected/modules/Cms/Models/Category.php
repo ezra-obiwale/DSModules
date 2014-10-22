@@ -46,6 +46,10 @@ class Category extends Model {
      */
     protected $dateModified;
     private $oldPosition;
+    
+    public function __construct() {
+        $this->setTableName('page_category');
+    }
 
     public function getParent() {
         return $this->parent;

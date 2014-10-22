@@ -48,7 +48,7 @@ foreach ($models as $model) {
     Table::addRowData($model->getLastName());
     Table::addRowData('<a title="send a mail with your email client" href="mailto:' . $model->getEmail() . '">' . $model->getEmail() . '</a>');
     Table::addRowData($model->getRole());
-    Table::addRowData($viewBtn . ' ' . $editBtn . ' ' . $deleteBtn, array('width' => '100px'));
+    Table::addRowData($editBtn . ' ' . $deleteBtn, array('width' => '100px'));
 }
 
 //echo TwBootstrap::customModal(array(
